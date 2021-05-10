@@ -24,7 +24,7 @@ pipeline {
             }
         }
        
-        stage("Release to test") {
+        stage("Release to staging") {
             steps {
                 sh "docker-compose -p golden-hammer-frontend -f docker-compose.staging.yml up -d"
             }
