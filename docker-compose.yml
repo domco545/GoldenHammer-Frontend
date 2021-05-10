@@ -1,0 +1,6 @@
+version: "3.3"
+services:
+  golden-hammer-frontend:
+    image: domco545/golden-hammer-frontend
+    ports:
+      - "4003:80"
