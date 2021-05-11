@@ -28,13 +28,14 @@ pipeline {
                 sh "docker-compose -p staging -f docker/docker-compose.yml -f docker/docker-compose.staging.yml up -d"
             }
         }
-        // stage("Release to production") {
-        //     input { 
-        //         message "Release to production?"
-        //     }
-        //     steps {
-        //         echo "not implemented"
-        //     }
-        // }
+        stage("Release to production") {
+            input { 
+                message "Release to production?"
+            }
+            steps {
+                sh "docker-compose -p production -f docker/docker-compose.yml -f docker/docker-compose.production.yml up -d"
+
+            }
+        }
     }
 } 
