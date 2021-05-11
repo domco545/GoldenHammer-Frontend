@@ -6,8 +6,9 @@ pipeline {
     stages {
         stage("Build Web") {
             steps {
+                sh "ls -al"
                 sh "npm install" 
-                sh "npm run build" 
+                sh "ng build --prod" 
                 sh "docker build -t domco545/golden-hammer-frontend -f docker/Dockerfile . " 
 
             }
