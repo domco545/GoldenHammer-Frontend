@@ -1,6 +1,7 @@
 version: "3.3"
+
 services:
-  golden-hammer-frontend:
+  web:
     image: domco545/golden-hammer-frontend
-    ports:
-      - "4003:80"
+    restart: always
+    

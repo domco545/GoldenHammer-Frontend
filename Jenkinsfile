@@ -6,10 +6,9 @@ pipeline {
     stages {
         stage("Build Web") {
             steps {
-                sh "node -v"
                 sh "npm install" 
                 sh "npm run build" 
-                sh "docker build -t domco545/golden-hammer-frontend:staging -f Dockerfile.staging . " 
+                sh "docker build -t domco545/golden-hammer-frontend -f docker/Dockerfile . " 
 
             }
         }
@@ -19,14 +18,14 @@ pipeline {
                 [usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
                 {
                   sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                  sh "docker push domco545/golden-hammer-frontend:staging"
+                  sh "docker push domco545/golden-hammer-frontend"
                 }
             }
         }
        
         stage("Release to staging") {
             steps {
-                sh "docker-compose -p golden-hammer-frontend -f docker-compose.staging.yml up -d"
+                sh "docker-compose -p staging -f docker/docker-compose.yml -f docker/docker-compose.staging.yml up"
             }
         }
         // stage("Release to production") {
