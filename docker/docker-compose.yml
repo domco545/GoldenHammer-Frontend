@@ -1,0 +1,7 @@
+version: "3.3"
+
+services:
+  web:
+    image: mrbacky/golden-hammer-frontend
+    restart: always
+    
