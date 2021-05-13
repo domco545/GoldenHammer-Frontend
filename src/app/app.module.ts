@@ -13,6 +13,8 @@ import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsModule} from '@ngxs/store';
 import {environment} from '../environments/environment';
+import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
+import {AuthState} from './state/auth.state';
 
 @NgModule({
   declarations: [AppComponent, IndexComponent, PageNotFoundComponent],
@@ -22,9 +24,12 @@ import {environment} from '../environments/environment';
     NgbModule,
     HttpClientModule,
     SocketIoModule,
+    NgxsStoragePluginModule.forRoot({
+      key: AuthState
+    }),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsModule.forRoot([], {
+    NgxsModule.forRoot([AuthState], {
       developmentMode: !environment.production
     }),
   ],

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {Auction} from '../../shared/auction.model';
+import {Auction} from '../../shared/models/auction.model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
