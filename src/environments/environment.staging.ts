@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'localhost:4003',
+  SOCKET_URL: 'localhost:4003',
+  REST_URL: '',
 };
