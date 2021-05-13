@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'prod api url',
+  SOCKET_URL: 'prod api url',
+  REST_URL: '',
 };

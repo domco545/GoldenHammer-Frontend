@@ -1,0 +1,9 @@
+<div class="d-flex flex-wrap p-4 justify-content-center">
+  <div class="card m-2" style="width: 18rem;" *ngFor="let auction of auctions$ |async">
+    <img class="card-img-top" src="assets/img/notfound.png" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{auction.name}}</h5>
+      <a routerLink="/auction/detail/{{auction.id}}" class="btn btn-primary">Open</a>
+    </div>
+  </div>
+</div>
