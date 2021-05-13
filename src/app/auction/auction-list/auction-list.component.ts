@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuctionState} from '../state/auction.state';
 import {Observable} from 'rxjs';
-import {Auction} from '../shared/auction.model';
+import {Auction} from '../../shared/auction.model';
 import {Select, Store} from '@ngxs/store';
 import {ListenForAuctions, StopListeningForAuctions} from '../state/auction.actions';
 
