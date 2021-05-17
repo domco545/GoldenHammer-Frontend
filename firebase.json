@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/GoldenHammer-Frontend",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
