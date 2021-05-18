@@ -1,18 +1,28 @@
 pipeline {
     agent any
     triggers {
-		pollSCM("*/5 * * * *")
+		pollSCM("*/10 * * * *")
 	}
+    options {
+        timeout(time: 1, unit: 'HOURS')
+    }
     stages {
         stage("Build Web") {
             steps {
                 sh "npm install" 
                 sh "ng build --prod" 
-                sh "docker build -t mrbacky/golden-hammer-frontend -f docker/Dockerfile . " 
-
             }
         }
+        stage("Build Docker Image"){
+            when {
+                branch 'master'
+            }
+            sh "docker build -t mrbacky/golden-hammer-frontend -f docker/Dockerfile . " 
+        }
         stage("Deliver Web to Docker Hub") {
+            when {
+                branch 'master'
+            }
             steps {
               withCredentials(
                 [usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
@@ -22,13 +32,18 @@ pipeline {
                 }
             }
         }
-       
         stage("Release to staging") {
+            when {
+                branch 'master'
+            }
             steps {
                 sh "docker-compose -p staging -f docker/docker-compose.yml -f docker/docker-compose.staging.yml up -d"
             }
         }
         stage("Release to production") {
+            when {
+                branch 'master'
+            }
             input { 
                 message "Release to production?"
             }
