@@ -5,10 +5,11 @@ import { AuctionRoutingModule } from './auction-routing.module';
 import { AuctionListComponent } from './auction-list/auction-list.component';
 import {AuctionState} from './state/auction.state';
 import {NgxsModule} from '@ngxs/store';
+import { DetailAuctionComponent } from './detail-auction/detail-auction.component';
 
 
 @NgModule({
-  declarations: [AuctionListComponent],
+  declarations: [AuctionListComponent, DetailAuctionComponent],
   imports: [
     CommonModule,
     AuctionRoutingModule,
