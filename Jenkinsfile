@@ -13,11 +13,13 @@ pipeline {
                 sh "ng build --prod" 
             }
         }
-        stage("Build Docker Image"){
+        stage("Build Docker Image") {
             when {
                 branch 'master'
             }
-            sh "docker build -t mrbacky/golden-hammer-frontend -f docker/Dockerfile . " 
+            steps {
+                sh "docker build -t mrbacky/golden-hammer-frontend -f docker/Dockerfile . " 
+            }
         }
         stage("Deliver Web to Docker Hub") {
             when {
