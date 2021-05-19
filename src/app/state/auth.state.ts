@@ -35,9 +35,12 @@ export class AuthState {
   login(ctx: StateContext<AuthStateModel>, action: Login): void{
     this.authService.login(action.payload.email, action.payload.password)
       .subscribe(data => {
+        console.log(data);
         ctx.patchState({
           user: data
         });
+      }, error => {
+        throw error;
       });
   }
 
