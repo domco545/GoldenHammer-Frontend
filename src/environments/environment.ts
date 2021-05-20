@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  SOCKET_URL: 'localhost:3000',
-  REST_URL: '',
+  SOCKET_URL: 'http://localhost:3000',
+  REST_URL: 'http://localhost:3000',
 };
 
 /*
