@@ -22,11 +22,7 @@ export class LoginComponent implements OnInit {
 
   submit(): void {
     if (this.emailFc.value && this.passwordFc.value) {
-      this.store.dispatch(new Login({email: this.emailFc.value, password: this.passwordFc.value})).subscribe(() => {
-        console.log('success');
-      }, error => {
-        console.log(error);
-      });
+      this.store.dispatch(new Login({email: this.emailFc.value, password: this.passwordFc.value})).subscribe(success => {console.log('logged in'); }, error => {console.log(error); });
     }
   }
 }

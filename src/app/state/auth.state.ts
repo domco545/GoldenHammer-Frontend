@@ -2,8 +2,11 @@ import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {Injectable} from '@angular/core';
 import {User} from '../shared/models/user.model';
 import {AuthService} from '../shared/auth.service';
-import {Login, Logout} from './auth.actions';
-import {tap} from 'rxjs/operators';
+import {Login, Logout, UpdateUser} from './auth.actions';
+import {take, tap} from 'rxjs/operators';
+import {UpdateAuctions} from '../auction/state/auction.actions';
+import {AuctionStateModel} from '../auction/state/auction.state';
+import {Observable} from 'rxjs';
 
 export interface AuthStateModel {
   user: User | undefined;
@@ -32,16 +35,13 @@ export class AuthState {
   }
 
   @Action(Login)
-  login(ctx: StateContext<AuthStateModel>, action: Login): void{
-    this.authService.login(action.payload.email, action.payload.password)
-      .subscribe(data => {
-        console.log(data);
-        ctx.patchState({
-          user: data
-        });
-      }, error => {
-        throw error;
-      });
+  // tslint:disable-next-line:typedef
+  login(ctx: StateContext<AuthStateModel>, action: Login) {
+    return this.authService.login(action.payload.email, action.payload.password)
+      .pipe(
+        tap(res => {
+          ctx.patchState({user: res});
+        }));
   }
 
   @Action(Logout)
