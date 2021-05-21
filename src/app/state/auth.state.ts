@@ -31,7 +31,7 @@ export class AuthState {
 
   @Selector()
   static isAuthenticated(state: AuthStateModel): boolean {
-    return !!state.user?.id;
+    return !!state.user;
   }
 
   @Action(Login)
