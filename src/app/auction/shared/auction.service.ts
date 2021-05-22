@@ -14,4 +14,8 @@ export class AuctionService {
   public getAllAuctions(): Observable<Auction[]>{
     return this.http.get<Auction[]>(environment.REST_URL + '/auction');
   }
+  public getSelectedAuction(auctionId: string): Observable<Auction> {
+    // return this.http.get<Auction>(environment.REST_URL + '/auction' + auctionId);
+    return this.http.get<Auction>('https://jsonplaceholder.typicode.com/posts/' + auctionId);
+  }
 }

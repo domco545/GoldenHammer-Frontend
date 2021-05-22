@@ -13,3 +13,19 @@ export class UpdateAuctions {
 
   static readonly type = '[Auction] Update Auctions';
 }
+export class ListenForAuction {
+  constructor(public auctionId: string) { }
+  static readonly type = '[Auction] Get Auction';
+}
+
+export class GetAuction {
+  constructor(public selectedAuction: string) { }
+  static readonly type = '[Auction] Get Auction';
+}
+export class UpdateSelectedAuction {
+  constructor(public selectedAuction: Auction) {}
+  static readonly type = '[Auction] Update selected Auction';
+}
+export class StopListeningForAuction {
+  static readonly type = '[Auction] Stop Listening For Auctions';
+}

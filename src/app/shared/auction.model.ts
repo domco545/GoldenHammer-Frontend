@@ -7,4 +7,6 @@ export interface Auction{
   startPrice: number;
   currentPrice: number;
   ownedBy: User;
+  body: string; // TODO: remove
+  title: string; // TODO: remove
 }
