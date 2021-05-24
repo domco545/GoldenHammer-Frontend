@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     imports: [
         CommonModule,
         UserRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgbAlertModule
     ]
 })
 export class UserModule { }

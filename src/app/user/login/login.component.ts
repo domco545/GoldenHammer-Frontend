@@ -13,6 +13,7 @@ import {catchError} from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   emailFc = new FormControl('');
   passwordFc = new FormControl('');
+  error: string | undefined;
 
   constructor(private store: Store, private router: Router) {
   }
@@ -22,7 +23,15 @@ export class LoginComponent implements OnInit {
 
   submit(): void {
     if (this.emailFc.value && this.passwordFc.value) {
-      this.store.dispatch(new Login({email: this.emailFc.value, password: this.passwordFc.value})).subscribe(success => {console.log('logged in'); }, error => {console.log(error); });
+      this.store.dispatch(new Login({email: this.emailFc.value, password: this.passwordFc.value}))
+        .subscribe(
+          success => {this.router.navigate(['index']); },
+          error => {this.error = error.message; }
+        );
     }
+  }
+
+  closeAlert(): void{
+    this.error = undefined;
   }
 }

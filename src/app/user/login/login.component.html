@@ -1,4 +1,5 @@
 <div>
+  <ngb-alert *ngIf="error" [type]="'danger'" (closed)="closeAlert()">{{ error }}</ngb-alert>
   <form>
     <div class="form-group">
       <label for="email">Email address</label>
