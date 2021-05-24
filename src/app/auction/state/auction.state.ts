@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Action, Selector, State, StateContext} from '@ngxs/store';
-import {Auction} from '../../shared/auction.model';
+import {Auction} from '../../shared/models/auction.model';
 import {Subscription} from 'rxjs';
 import {
   ListenForAuctions,

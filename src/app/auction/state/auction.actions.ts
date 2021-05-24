@@ -1,4 +1,4 @@
-import {Auction} from '../../shared/auction.model';
+import {Auction} from '../../shared/models/auction.model';
 
 export class ListenForAuctions {
   static readonly type = '[Auction] Listen For Auctions';
