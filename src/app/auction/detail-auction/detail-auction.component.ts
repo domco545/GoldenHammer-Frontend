@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
 import { StopListeningForAuction, ListenForAuction } from '../state/auction.actions';
-import { Auction } from '../../shared/auction.model';
 import { Observable } from 'rxjs';
 import { AuctionState } from '../state/auction.state';
+import {Auction} from '../../shared/models/auction.model';
 
 @Component({
   selector: 'app-detail-auction',
@@ -14,6 +14,7 @@ import { AuctionState } from '../state/auction.state';
 export class DetailAuctionComponent implements OnInit, OnDestroy {
   public auctionId = '';
   @Select(AuctionState.selectedAuction) selectedAuction: Observable<Auction> | undefined;
+  bids: string[] | undefined;
   constructor(private activatedRoute: ActivatedRoute, private store: Store) {
   }
 
