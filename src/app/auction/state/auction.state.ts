@@ -3,31 +3,34 @@ import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {Auction} from '../../shared/models/auction.model';
 import {Subscription} from 'rxjs';
 import {
-  ListenForAuctions,
-  StopListeningForAuctions,
   UpdateAuctions,
-  ListenForAuction,
+  GetAuctions, GetAuction, ListenForBids, StopListeningForBids, UpdateBids,
 } from './auction.actions';
 import {AuctionService} from '../shared/auction.service';
 import { UpdateSelectedAuction } from './auction.actions';
+import {Bid} from '../shared/bid.model';
+import {take, tap} from 'rxjs/operators';
 
 export interface AuctionStateModel {
   auctions: Auction[];
   selectedAuction: Auction | null;
+  bids: Bid[];
+  selectedAuctionPrice: number;
 }
 
 @State<AuctionStateModel>({
   name: 'auction',
   defaults: {
     auctions: [],
-    selectedAuction: null
+    selectedAuction: null,
+    bids: [],
+    selectedAuctionPrice: 0
   }
 })
 
 @Injectable()
 export class AuctionState {
-  private auctionUnsub: Subscription | undefined;
-  private selectedAuctionUnsub: Subscription | undefined;
+  bidsSub$: Subscription | undefined;
 
   constructor(private auctionService: AuctionService) {
   }
@@ -42,40 +45,56 @@ export class AuctionState {
     return state.selectedAuction;
   }
 
-  @Action(ListenForAuctions)
+  @Selector()
+  static bids(state: AuctionStateModel): Bid[] | null {
+    return state.bids;
+  }
+
+  @Selector()
+  static selectedAuctionPrice(state: AuctionStateModel): number | null {
+    return state.selectedAuctionPrice;
+  }
+
+  @Action(GetAuctions)
   getAuctions(ctx: StateContext<AuctionStateModel>): void {
-    this.auctionUnsub = this.auctionService.getAllAuctions()
+    this.auctionService.getAllAuctions()
+      .pipe(
+        take(1)
+      )
       .subscribe(auctions => {
         ctx.dispatch(new UpdateAuctions(auctions));
       });
   }
 
-  @Action(ListenForAuction)
-  getSelectedAuction(ctx: StateContext<AuctionStateModel>, action: ListenForAuction): void{
+  @Action(GetAuction)
+  getSelectedAuction(ctx: StateContext<AuctionStateModel>, action: GetAuction): void{
     const currentState = ctx.getState();
     const existingAuction = currentState.auctions.find(auc => String(auc.id) === String(action.auctionId));
     if (existingAuction) {
       ctx.dispatch(new UpdateSelectedAuction(existingAuction));
     } else {
-      this.selectedAuctionUnsub = this.auctionService.getSelectedAuction(action.auctionId)
+      this.auctionService.getSelectedAuction(action.auctionId)
+        .pipe(
+          take(1)
+        )
         .subscribe(auction => {
           ctx.dispatch(new UpdateSelectedAuction(auction));
         });
     }
   }
 
-  @Action(StopListeningForAuctions)
-  stopListeningForAuctions(ctx: StateContext<AuctionStateModel>): void {
-    if (this.auctionUnsub) {
-      this.auctionUnsub.unsubscribe();
-    }
+  @Action(ListenForBids)
+  listenForBids(ctx: StateContext<AuctionStateModel>, action: ListenForBids): void{
+    this.auctionService.switchChannel(action.auctionId);
+    this.bidsSub$ = this.auctionService.listenForBids()
+      .subscribe(res => {
+        ctx.dispatch(new UpdateBids(res));
+      });
   }
 
-  @Action(StopListeningForAuctions)
-  stopListeningForAuction(ctx: StateContext<AuctionStateModel>): void {
-    if (this.selectedAuctionUnsub) {
-      this.selectedAuctionUnsub.unsubscribe();
-    }
+  @Action(UpdateBids)
+  updateBids(ctx: StateContext<AuctionStateModel>, ub: UpdateBids): void {
+    ctx.patchState({bids: ub.bids});
   }
 
   @Action(UpdateAuctions)
@@ -96,5 +115,10 @@ export class AuctionState {
       selectedAuction: auc.selectedAuction
     };
     ctx.setState(newState);
+  }
+
+  @Action(StopListeningForBids)
+  stopListeningForBids(): void {
+    this.bidsSub$?.unsubscribe();
   }
 }

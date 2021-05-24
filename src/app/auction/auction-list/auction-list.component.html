@@ -3,6 +3,7 @@
     <img class="card-img-top" src="assets/img/notfound.png" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">{{auction.name}}</h5>
+      <h6>Current highest bid: {{auction.currentPrice}}</h6>
       <a routerLink="/auction/detail/{{auction.id}}" class="btn btn-primary">Open</a>
     </div>
   </div>

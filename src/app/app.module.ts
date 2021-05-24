@@ -8,7 +8,7 @@ import {ConfigService} from './config.service';
 import {HttpClientModule} from '@angular/common/http';
 import {IndexComponent} from './index/index.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {SocketIoModule} from 'ngx-socket-io';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsModule} from '@ngxs/store';
@@ -17,6 +17,9 @@ import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 import {AuthState} from './state/auth.state';
 import { NavbarComponent } from './includes/navbar/navbar.component';
 
+const config: SocketIoConfig = { url: environment.SOCKET_URL, options: {withCredentials: false} };
+
+
 @NgModule({
   declarations: [AppComponent, IndexComponent, PageNotFoundComponent, NavbarComponent],
   imports: [
@@ -24,7 +27,7 @@ import { NavbarComponent } from './includes/navbar/navbar.component';
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    SocketIoModule,
+    SocketIoModule.forRoot(config),
     NgxsStoragePluginModule.forRoot({
       key: AuthState
     }),

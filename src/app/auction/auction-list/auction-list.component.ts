@@ -3,7 +3,7 @@ import {AuctionState} from '../state/auction.state';
 import {Observable} from 'rxjs';
 import {Auction} from '../../shared/models/auction.model';
 import {Select, Store} from '@ngxs/store';
-import {ListenForAuctions, StopListeningForAuctions} from '../state/auction.actions';
+import {GetAuctions} from '../state/auction.actions';
 
 @Component({
   selector: 'app-auction-list',
@@ -15,11 +15,10 @@ export class AuctionListComponent implements OnInit, OnDestroy {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new ListenForAuctions());
+    this.store.dispatch(new GetAuctions());
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new StopListeningForAuctions());
   }
 
 }

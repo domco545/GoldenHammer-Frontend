@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
-import { StopListeningForAuction, ListenForAuction } from '../state/auction.actions';
+import {GetAuction, ListenForBids, StopListeningForBids} from '../state/auction.actions';
 import { Observable } from 'rxjs';
 import { AuctionState } from '../state/auction.state';
 import {Auction} from '../../shared/models/auction.model';
+import {Bid} from '../shared/bid.model';
 
 @Component({
   selector: 'app-detail-auction',
@@ -14,19 +15,21 @@ import {Auction} from '../../shared/models/auction.model';
 export class DetailAuctionComponent implements OnInit, OnDestroy {
   public auctionId = '';
   @Select(AuctionState.selectedAuction) selectedAuction: Observable<Auction> | undefined;
-  bids: string[] | undefined;
+  @Select(AuctionState.bids) bids$: Observable<Bid[]> | undefined;
+  @Select(AuctionState.selectedAuctionPrice) selectedAuctionPrice$: Observable<number> | undefined;
+
   constructor(private activatedRoute: ActivatedRoute, private store: Store) {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((res: any) => {
-      this.auctionId = res.params.auctionId;
-      this.store.dispatch(new ListenForAuction(this.auctionId));
-    });
+    const id = this.activatedRoute.snapshot.paramMap.get('auctionId');
+    if (id){
+      this.auctionId = id;
+      this.store.dispatch([new GetAuction(this.auctionId), new ListenForBids(this.auctionId)]);
+    }
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new StopListeningForAuction());
+    this.store.dispatch(new StopListeningForBids());
   }
-
 }
