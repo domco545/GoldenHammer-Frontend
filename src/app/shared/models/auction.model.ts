@@ -6,5 +6,6 @@ export interface Auction{
   description: string;
   startPrice: number;
   currentPrice: number;
+  endDate: Date;
   ownedBy: User;
 }
