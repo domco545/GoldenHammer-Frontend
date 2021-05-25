@@ -4,12 +4,14 @@ import {Auction} from '../../shared/models/auction.model';
 import {Subscription} from 'rxjs';
 import {
   UpdateAuctions,
-  GetAuctions, GetAuction, ListenForBids, StopListeningForBids, UpdateBids,
+  GetAuctions, GetAuction, ListenForBids, StopListeningForBids, UpdateBids, UpdateSelectedAuctionPrice, AddBid,
 } from './auction.actions';
 import {AuctionService} from '../shared/auction.service';
 import { UpdateSelectedAuction } from './auction.actions';
 import {Bid} from '../shared/bid.model';
 import {take, tap} from 'rxjs/operators';
+import {Login} from '../../state/auth.actions';
+import {AuthStateModel} from '../../state/auth.state';
 
 export interface AuctionStateModel {
   auctions: Auction[];
@@ -88,8 +90,13 @@ export class AuctionState {
     this.auctionService.switchChannel(action.auctionId);
     this.bidsSub$ = this.auctionService.listenForBids()
       .subscribe(res => {
-        ctx.dispatch(new UpdateBids(res));
+        ctx.dispatch([new UpdateBids(res.bids), new UpdateSelectedAuctionPrice(res.currentItemPrice)]);
       });
+  }
+
+  @Action(AddBid)
+  addBid(ctx: StateContext<AuthStateModel>, action: AddBid): void{
+    this.auctionService.addBid(action.value, action.bidderId, action.auctionId);
   }
 
   @Action(UpdateBids)
@@ -115,6 +122,11 @@ export class AuctionState {
       selectedAuction: auc.selectedAuction
     };
     ctx.setState(newState);
+  }
+
+  @Action(UpdateSelectedAuctionPrice)
+  UpdateSelectedAuctionPrice(ctx: StateContext<AuctionStateModel>, aucp: UpdateSelectedAuctionPrice): void {
+    ctx.patchState({selectedAuctionPrice: aucp.price});
   }
 
   @Action(StopListeningForBids)

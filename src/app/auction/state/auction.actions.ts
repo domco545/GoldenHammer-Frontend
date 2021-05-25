@@ -15,6 +15,11 @@ export class GetAuction {
   static readonly type = '[Auction] Get Auction';
 }
 
+export class AddBid {
+  constructor(public value: number, public bidderId: string, public auctionId: string) { }
+  static readonly type = '[Auction] Add Bid';
+}
+
 export class ListenForBids {
   constructor(public auctionId: string) { }
   static readonly type = '[Auction] Listen For Bids';
@@ -32,4 +37,9 @@ export class UpdateBids {
 export class UpdateSelectedAuction {
   constructor(public selectedAuction: Auction) {}
   static readonly type = '[Auction] Update selected Auction';
+}
+
+export class UpdateSelectedAuctionPrice {
+  constructor(public price: number) {}
+  static readonly type = '[Auction] Update selected Auction price';
 }
