@@ -2,11 +2,14 @@ version: "3.3"
 
 services:
   web:
-    environment: 
+    environment:
       ENVIRONMENT: Staging
     ports:
       - "4010:80"
-  
 
-    
-    
+networks:
+  default:
+    external: true
+    name: golden
+
+  
