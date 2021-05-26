@@ -10,7 +10,7 @@ pipeline {
         stage("Build Web") {
             steps {
                 sh "npm install" 
-                sh "ng build --prod" 
+                sh "ng build --configuration=staging" 
             }
         }
         stage("Build Docker Image") {
@@ -33,14 +33,14 @@ pipeline {
                 sh "docker-compose -p staging -f docker/docker-compose.yml -f docker/docker-compose.staging.yml up -d"
             }
         }
-        stage("Release to production") {
-            input { 
-                message "Release to production?"
-            }
-            steps {
-                sh "docker-compose -p production -f docker/docker-compose.yml -f docker/docker-compose.production.yml up -d"
+        // stage("Release to production") {
+        //     input { 
+        //         message "Release to production?"
+        //     }
+        //     steps {
+        //         sh "docker-compose -p production -f docker/docker-compose.yml -f docker/docker-compose.production.yml up -d"
 
-            }
-        }
+        //     }
+        // }
     }
 } 
