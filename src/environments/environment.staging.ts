@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  SOCKET_URL: 'http://nestjs_api:3000',
-  REST_URL: 'http://nestjs_api:3000',
+  SOCKET_URL: 'http://185.51.76.193:4003',
+  REST_URL: 'http://185.51.76.193:4003',
 };
