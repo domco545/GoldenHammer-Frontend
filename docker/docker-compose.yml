@@ -4,6 +4,3 @@ services:
   web:
     image: domco545/golden-hammer-frontend
     restart: always
-  api:
-    image: 
-    
