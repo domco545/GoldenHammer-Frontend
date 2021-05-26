@@ -18,7 +18,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh "docker build -t mrbacky/golden-hammer-frontend -f docker/Dockerfile . " 
+                sh "docker build -t domco545/golden-hammer-frontend -f docker/Dockerfile . " 
             }
         }
         stage("Deliver Web to Docker Hub") {
@@ -30,7 +30,7 @@ pipeline {
                 [usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
                 {
                   sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
-                  sh "docker push mrbacky/golden-hammer-frontend"
+                  sh "docker push domco545/golden-hammer-frontend"
                 }
             }
         }
