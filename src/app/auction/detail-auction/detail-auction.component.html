@@ -1,0 +1,34 @@
+<div class="wrapper row">
+  <div class="col-4 mr-4">
+    <div class="product-wrap">
+      <div class="product-shot">
+        <img src="assets/img/notfound.png" alt="" />
+      </div>
+    </div>
+    <div class="current_bids mt-4">
+      <h5 class="pl-2">Current Bids</h5>
+      <div class="bid_item d-flex justify-content-between p-2" *ngFor="let bid of bids$ | async">
+        <span class="user">{{bid.bidder.name}}</span>
+        <span class="price">{{bid.value}} DKK</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="product-info">
+      <h2>{{(selectedAuction | async)?.name}}</h2>
+      <div class="desc">
+        {{(selectedAuction | async)?.description}}
+        <h4 class="pt-2">Initial Price: {{(selectedAuction | async)?.startPrice}} DKK</h4>
+        <h4 class="pt-2">Current Price: {{(selectedAuctionPrice$ | async)}} DKK</h4>
+      </div>
+      <ul class="sizing-list">
+        <li class="size" [ngClass]="{'active': selectedBid === 1}" (click)="changeSelectedBid(1)">50 DKK</li>
+        <li class="size" [ngClass]="{'active': selectedBid === 2}" (click)="changeSelectedBid(2)">100 DKK</li>
+        <li class="size" [ngClass]="{'active': selectedBid === 3}" (click)="changeSelectedBid(3)">1000 DKK</li>
+        <li><input type="number" class="custom_amount" [ngClass]="{'active': selectedBid === 4}" (click)="changeSelectedBid(4)" placeholder="Enter Custom Amount" min="1" [formControl]="customBidFC"></li>
+      </ul>
+      <button class="btn btn-success" [disabled]="!(loggedIn$ | async)" (click)="sendBid()">Send my bid</button>
+    </div>
+  </div>
+</div>
+
