@@ -14,17 +14,11 @@ pipeline {
             }
         }
         stage("Build Docker Image") {
-            when {
-                branch 'master'
-            }
             steps {
                 sh "docker build -t domco545/golden-hammer-frontend -f docker/Dockerfile . " 
             }
         }
         stage("Deliver Web to Docker Hub") {
-            when {
-                branch 'master'
-            }
             steps {
               withCredentials(
                 [usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
@@ -35,17 +29,11 @@ pipeline {
             }
         }
         stage("Release to staging") {
-            when {
-                branch 'master'
-            }
             steps {
                 sh "docker-compose -p staging -f docker/docker-compose.yml -f docker/docker-compose.staging.yml up -d"
             }
         }
         stage("Release to production") {
-            when {
-                branch 'master'
-            }
             input { 
                 message "Release to production?"
             }
