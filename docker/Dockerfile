@@ -1,2 +1,7 @@
+FROM node:alpine AS Builder
+WORKDIR /app
+COPY . .
+RUN npm install && ng build --configuration=staging
+
 FROM nginx:alpine
-COPY dist /usr/share/nginx/html
+COPY --from=Builder /app/dist /usr/share/nginx/html
