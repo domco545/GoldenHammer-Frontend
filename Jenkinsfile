@@ -10,7 +10,7 @@ pipeline {
         stage("Build Web") {
             steps {
                 sh "npm install" 
-                sh "ng build --configuration=staging" 
+                sh "ng build --prod" 
             }
         }
         stage("Build Docker Image") {
@@ -38,10 +38,11 @@ pipeline {
                 message "Release to production?"
             }
             steps {
-                sh "npm install"
-                sh "ng build --prod" 
-                sh "firebase deploy"
-
+                withCredentials(
+                [usernamePassword(credentialsId: 'Firebase', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
+                {
+                    sh 'firebase deploy --token ${PASSWORD}'
+                }
             }
         }
     }
