@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ConfigService } from './config.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +8,5 @@ import { ConfigService } from './config.service';
 export class AppComponent {
   title = 'GoldenHammer-Frontend';
 
-  config$ = this.configService.config$;
-
-  constructor(private configService: ConfigService) {
-    configService.loadConfig().subscribe();
-  }
+  
 }

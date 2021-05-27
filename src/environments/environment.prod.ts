@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  SOCKET_URL: 'prod api url',
-  REST_URL: '',
+  SOCKET_URL: 'https://golden-hammer-backend.herokuapp.com',
+  REST_URL: 'https://golden-hammer-backend.herokuapp.com',
 };

@@ -4,7 +4,6 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {ConfigService} from './config.service';
 import {HttpClientModule} from '@angular/common/http';
 import {IndexComponent} from './index/index.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
@@ -37,7 +36,7 @@ const config: SocketIoConfig = { url: environment.SOCKET_URL, options: {withCred
       developmentMode: !environment.production
     }),
   ],
-  providers: [ConfigService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {

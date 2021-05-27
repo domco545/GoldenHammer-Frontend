@@ -2,6 +2,6 @@ version: "3.3"
 
 services:
   web:
-    image: mrbacky/golden-hammer-frontend
+    image: domco545/golden-hammer-frontend
     restart: always
-    
+  

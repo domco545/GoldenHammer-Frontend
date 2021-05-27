@@ -1,8 +1,0 @@
-version: "3.3"
-
-services:
-  web:
-    environment:
-      ENVIRONMENT: Production
-    ports:
-      - "4020:80"
